@@ -1,0 +1,20 @@
+language: python
+
+python:
+    - "2.7"
+    - "3.3"
+    - "3.4"
+    - "3.5"
+    - "nightly"
+
+install:
+    - pip install coveralls
+    - pip install codecov
+    - python setup.py -q install
+
+script:
+    - coverage run setup.py test
+
+after_success:
+    - coveralls
+    - codecov
