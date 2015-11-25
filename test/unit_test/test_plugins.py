@@ -23,7 +23,7 @@ class PluginTest(unittest.TestCase):
                 'testdocs/url.docx',
                 'testdocs/test.docx',
                 'testdocs/macros2.xlsm']
-        print 'Running MASTIFF plugins on test documents...'
+        print('Running MASTIFF plugins on test documents...')
         for doc in docs:
             cls.run_mastiff(doc)
 
@@ -91,21 +91,21 @@ class PluginTest(unittest.TestCase):
                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         except OSError as e:
             if e.errno == os.errno.ENOENT:
-                print '\nmas.py cannot be found.'
-                print 'Please ensure that MASTIFF is installed.'
+                print('\nmas.py cannot be found.')
+                print('Please ensure that MASTIFF is installed.')
                 sys.exit(1)
             else:
                 raise
         out, err = p.communicate()
         if 'Could not read any configuration files' in out:
-            print '\n\n' + out
-            print 'Most likely your argument does not point to'
-            print 'a valid MASTIFF source directory.'
+            print('\n\n' + out)
+            print('Most likely your argument does not point to')
+            print('a valid MASTIFF source directory.')
             sys.exit(1)
         os.chdir(cls.test_dir)
 
     def getPartsFromDir(self, doc, types):
-        print 'mastiffparts %s' % self.mastiff_dir
+        print('mastiffparts %s' % self.mastiff_dirtest_plugins.py)
         parts_path = os.path.join(self.mastiff_dir,
                                   'work/log',
                                   hashlib.md5(open(doc, 'rb').read()).hexdigest(),
@@ -136,7 +136,7 @@ test_dir = os.path.abspath(os.path.dirname(__file__))
 
 def main():
     if len(sys.argv) != 2:
-        print "\nUsage: " + sys.argv[0] + " MASTIFF_SOURCE_DIR\n\n"
+        print("\nUsage: " + sys.argv[0] + " MASTIFF_SOURCE_DIR\n\n")
         sys.exit(1)
     os.chdir(os.path.abspath(os.path.dirname(__file__)))
     suite = unittest.TestLoader().loadTestsFromTestCase(PluginTest)

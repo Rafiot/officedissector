@@ -8,7 +8,8 @@ __email__ = 'bgordon@grierforensics.com'
 import sys
 import os
 import unittest
-import StringIO
+from io import BytesIO
+from io import StringIO
 
 from lxml import etree
 
@@ -19,7 +20,9 @@ from officedissector.part import Part
 
 class PackageTest(unittest.TestCase):
     def setUp(self):
-        sys.stdout = self.test_stdout = StringIO.StringIO()
+        os.chdir(os.path.abspath(os.path.dirname(__file__)))
+        sys.stdout = StringIO()
+        self.test_stdout = BytesIO()
 
     # DEV-01.1
     def testFileName(self):
@@ -52,7 +55,7 @@ class PackageTest(unittest.TestCase):
     def testZipfileProperties(self):
         doc1 = Document('testdocs/test.docx')
         self.assertEquals(doc1.zip().namelist()[0], '[Content_Types].xml')
-        self.assertEquals(doc1.zip().comment, '')
+        self.assertEquals(doc1.zip().comment, b'')
         self.assertEquals(doc1.zip().part_extract('[Content_Types].xml').read(10),
                           b'\x3C\x3F\x78\x6D\x6C\x20\x76\x65\x72\x73')
         self.assertEquals(len(doc1.zip().namelist()), 17)
@@ -63,9 +66,9 @@ class PackageTest(unittest.TestCase):
         self.assertEquals(doc2.zip().part_info(
             '[Content_Types].xml').compress_size, 406)
         self.assertEquals(doc2.zip().part_info('[Content_Types].xml').date_time,
-                          (2013, 07, 03, 15, 22, 12))
+                          (2013, 7, 3, 15, 22, 12))
         self.assertEquals(doc2.zip().part_info('[Content_Types].xml').comment,
-                          '')
+                          b'')
 
         with self.assertRaises(ZipCRCError):
             Document('testdocs/badcrc.docx').zip()
