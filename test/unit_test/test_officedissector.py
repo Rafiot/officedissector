@@ -10,6 +10,7 @@ import os
 import unittest
 from io import BytesIO
 from io import StringIO
+import platform
 
 from lxml import etree
 
@@ -21,7 +22,11 @@ from officedissector.part import Part
 class PackageTest(unittest.TestCase):
     def setUp(self):
         os.chdir(os.path.abspath(os.path.dirname(__file__)))
-        sys.stdout = StringIO()
+        major, minor, hf = platform.python_version_tuple()
+        if int(major) < 3:
+            sys.stdout = BytesIO()
+        else:
+            sys.stdout = StringIO()
         self.test_stdout = BytesIO()
 
     # DEV-01.1
