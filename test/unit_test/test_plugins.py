@@ -105,7 +105,7 @@ class PluginTest(unittest.TestCase):
         os.chdir(cls.test_dir)
 
     def getPartsFromDir(self, doc, types):
-        print('mastiffparts %s' % self.mastiff_dirtest_plugins.py)
+        print('mastiffparts %s' % self.mastiff_dir)
         parts_path = os.path.join(self.mastiff_dir,
                                   'work/log',
                                   hashlib.md5(open(doc, 'rb').read()).hexdigest(),
