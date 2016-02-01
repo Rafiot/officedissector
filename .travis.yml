@@ -24,6 +24,7 @@ install:
     - python setup.py -q install
 
 script:
+    - if [ $(python -c 'import sys; print(sys.version_info.major)') == '2' ]; then mas.py -h ; fi
     - nosetests --with-coverage --cover-package=officedissector -v
 
 after_success:
