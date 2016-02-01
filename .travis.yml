@@ -16,7 +16,7 @@ install:
     - git clone https://github.com/Rafiot/mastiff.git
     - pushd mastiff
     - pip install -U pip setuptools python-magic yapsy simplejson
-    - sudo make install
+    - make install
     - make test
     - popd
     - pip install coveralls
