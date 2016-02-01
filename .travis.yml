@@ -15,9 +15,9 @@ install:
     # MASTIFF is required for the tests
     - git clone https://github.com/Rafiot/mastiff.git
     - pushd mastiff
-    - pip install -U pip setuptools python-magic yapsy
-    - make test
+    - pip install -U pip setuptools python-magic yapsy simplejson
     - sudo make install
+    - make test
     - popd
     - pip install coveralls
     - pip install codecov

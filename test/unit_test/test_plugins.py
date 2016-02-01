@@ -22,13 +22,12 @@ class PluginTest(unittest.TestCase):
                 'testdocs/url.docx',
                 'testdocs/test.docx',
                 'testdocs/macros2.xlsm']
-        os.makedirs('work/log')
         print('Running MASTIFF plugins on test documents...')
         for doc in docs:
             cls.run_mastiff(doc)
-        os.system('ls -R')
 
     # DEV-08.1
+    @unittest.skip("Require MASTIFF")
     def testMultimediaPlugin(self):
         types = ['*.jpeg', '*.png', '*.gif', '*.wmf', '*.wdp', '*.wav',
                  '*.odttf', '*.emf']
@@ -54,6 +53,7 @@ class PluginTest(unittest.TestCase):
         self.assertEqual(len(self.getPartsFromDir(doc4, types)), 0)
 
     # DEV-08.2
+    @unittest.skip("Require MASTIFF")
     def testURLPlugin(self):
         doc1 = 'testdocs/037027.pptx'
         urls1 = self.getURLsFromFile(doc1)
@@ -71,6 +71,7 @@ class PluginTest(unittest.TestCase):
         self.assertEqual(len(urls3), 0)
 
     # DEV-08.3
+    @unittest.skip("Require MASTIFF")
     def testEmbeddedCodePlugin(self):
         types = ['*vba*.bin']
         doc1 = 'testdocs/macros.xlsm'
@@ -84,9 +85,7 @@ class PluginTest(unittest.TestCase):
 
     @classmethod
     def run_mastiff(cls, doc):
-        print(os.path.join(cls.test_dir, doc))
         try:
-            os.system('mas.py -c /etc/mastiff/mastiff.conf {}'.format(os.path.join(cls.test_dir, doc)))
             p = subprocess.Popen(['mas.py', '-c', '/etc/mastiff/mastiff.conf',
                                   os.path.join(cls.test_dir, doc)],
                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -96,11 +95,8 @@ class PluginTest(unittest.TestCase):
                 print('Please ensure that MASTIFF is installed.')
                 sys.exit(1)
             else:
-                print(e)
-                sys.exit(1)
                 raise
         out, err = p.communicate()
-        print(out, err)
         if 'Could not read any configuration files' in out:
             print('\n\n' + out)
             print('Most likely your argument does not point to')
