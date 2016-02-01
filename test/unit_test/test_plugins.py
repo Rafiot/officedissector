@@ -13,9 +13,8 @@ import glob
 class PluginTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.mastiff_dir = sys.argv[1]
-        global test_dir
-        cls.test_dir = test_dir
+        cls.test_dir = os.path.dirname(os.path.realpath(__file__))
+        os.chdir(cls.test_dir)
         docs = ['testdocs/037027.pptx',
                 'testdocs/content.docx',
                 'testdocs/sounds.pptx',
@@ -23,9 +22,11 @@ class PluginTest(unittest.TestCase):
                 'testdocs/url.docx',
                 'testdocs/test.docx',
                 'testdocs/macros2.xlsm']
+        os.makedirs('work/log')
         print('Running MASTIFF plugins on test documents...')
         for doc in docs:
             cls.run_mastiff(doc)
+        os.system('ls -R')
 
     # DEV-08.1
     def testMultimediaPlugin(self):
@@ -83,10 +84,10 @@ class PluginTest(unittest.TestCase):
 
     @classmethod
     def run_mastiff(cls, doc):
-        os.chdir(cls.mastiff_dir)
+        print(os.path.join(cls.test_dir, doc))
         try:
-            p = subprocess.Popen(['mas.py',
-                                  '-c', os.path.join(cls.mastiff_dir, 'mastiff.conf'),
+            os.system('mas.py -c /etc/mastiff/mastiff.conf {}'.format(os.path.join(cls.test_dir, doc)))
+            p = subprocess.Popen(['mas.py', '-c', '/etc/mastiff/mastiff.conf',
                                   os.path.join(cls.test_dir, doc)],
                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         except OSError as e:
@@ -95,18 +96,20 @@ class PluginTest(unittest.TestCase):
                 print('Please ensure that MASTIFF is installed.')
                 sys.exit(1)
             else:
+                print(e)
+                sys.exit(1)
                 raise
         out, err = p.communicate()
+        print(out, err)
         if 'Could not read any configuration files' in out:
             print('\n\n' + out)
             print('Most likely your argument does not point to')
             print('a valid MASTIFF source directory.')
             sys.exit(1)
-        os.chdir(cls.test_dir)
 
     def getPartsFromDir(self, doc, types):
-        print('mastiffparts %s' % self.mastiff_dir)
-        parts_path = os.path.join(self.mastiff_dir,
+        print('mastiffparts %s' % os.path.dirname(os.path.realpath(__file__)))
+        parts_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                   'work/log',
                                   hashlib.md5(open(doc, 'rb').read()).hexdigest(),
                                   'parts')
@@ -116,10 +119,10 @@ class PluginTest(unittest.TestCase):
         return files_grabbed
 
     def getURLsFromFile(self, doc):
-        url_filepath = os.path.join(self.mastiff_dir,
-                                  'work/log',
-                                  hashlib.md5(open(doc, 'rb').read()).hexdigest(),
-                                  'urls.txt')
+        url_filepath = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                                    'work/log',
+                                    hashlib.md5(open(doc, 'rb').read()).hexdigest(),
+                                    'urls.txt')
         url_file = open(url_filepath, 'r')
         url_file.readline()  # Skip first line header
         urls = []
@@ -130,17 +133,10 @@ class PluginTest(unittest.TestCase):
         url_file.close()
         return urls
 
-# For some odd reason, abspath() in unittest class method gives
-# incorrect path, so use global variable instead.
-test_dir = os.path.abspath(os.path.dirname(__file__))
 
 def main():
-    if len(sys.argv) != 2:
-        print("\nUsage: " + sys.argv[0] + " MASTIFF_SOURCE_DIR\n\n")
-        sys.exit(1)
-    os.chdir(os.path.abspath(os.path.dirname(__file__)))
     suite = unittest.TestLoader().loadTestsFromTestCase(PluginTest)
-    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    result = unittest.TextTestRunner(verbosity=3).run(suite)
     if not result.wasSuccessful():
         sys.exit(1)
 

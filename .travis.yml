@@ -16,6 +16,7 @@ install:
     - git clone https://github.com/Rafiot/mastiff.git
     - pushd mastiff
     - pip install -U pip setuptools python-magic yapsy
+    - make test
     - sudo make install
     - popd
     - pip install coveralls
@@ -23,7 +24,7 @@ install:
     - python setup.py -q install
 
 script:
-    - coverage run setup.py test
+    - nosetests --with-coverage --cover-package=officedissector -v
 
 after_success:
     - coveralls
