@@ -16,7 +16,8 @@ from officedissector.zip import ZipCRCError
 
 class SmokeTest(unittest.TestCase):
     def testDocOpen(self):
-        corpus_path = ['test/govdocs/', 'test/fraunhoferlibrary/']
+        cur_dir = os.path.dirname(os.path.realpath(__file__))
+        corpus_path = [os.path.join(cur_dir, 'govdocs'), os.path.join(cur_dir, 'fraunhoferlibrary')]
         files = []
         for dir_ in corpus_path:
             for f in os.listdir(dir_):
