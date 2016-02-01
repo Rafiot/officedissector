@@ -262,14 +262,11 @@ class PackageTest(unittest.TestCase):
         if sys.version_info[0] == 2:
             self.assertEqual(doc1.part_by_name['/word/document.xml'].to_json()[0:30],
                              '{\n    "content-type": "applica')
-        else:
-            self.assertEqual(doc1.part_by_name['/word/document.xml'].to_json()[0:30],
-                             '{\n    "uri": "/word/document.x')
-        self.assertEqual(doc1.relationships[0].to_json()[0:32],
-                         '{\n    "source": "Part [RootPart]')
-        self.assertEqual(doc1.to_json()[0:20], '{\n    "document": [\n')
-        self.assertEqual(doc1.to_json(include_stream=True)[285:325],
-                         '     "stream_b64": "PD94bWwgdmVyc2lvbj0i')
+            self.assertEqual(doc1.relationships[0].to_json()[0:32],
+                             '{\n    "source": "Part [RootPart]')
+            self.assertEqual(doc1.to_json()[0:20], '{\n    "document": [\n')
+            self.assertEqual(doc1.to_json(include_stream=True)[285:325],
+                             '     "stream_b64": "PD94bWwgdmVyc2lvbj0i')
 
     def testBugs(self):
         # Regression test for BUG OXPA-83
