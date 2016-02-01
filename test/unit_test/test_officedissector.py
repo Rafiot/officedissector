@@ -259,8 +259,12 @@ class PackageTest(unittest.TestCase):
                          'Part [/word/document.xml]')
         self.assertEqual(doc1.part_by_name['/word/document.xml'].relationships_out()[2].to_reference(),
                          'Relationship [rId7] (source Part [/word/document.xml])')
-        self.assertEqual(doc1.part_by_name['/word/document.xml'].to_json()[0:30],
-                         '{\n    "content-type": "applica')
+        if sys.version_info[0] == 2:
+            self.assertEqual(doc1.part_by_name['/word/document.xml'].to_json()[0:30],
+                             '{\n    "content-type": "applica')
+        else:
+            self.assertEqual(doc1.part_by_name['/word/document.xml'].to_json()[0:30],
+                             '{\n    "uri": "/word/document.x')
         self.assertEqual(doc1.relationships[0].to_json()[0:32],
                          '{\n    "source": "Part [RootPart]')
         self.assertEqual(doc1.to_json()[0:20], '{\n    "document": [\n')

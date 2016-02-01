@@ -97,7 +97,7 @@ class PluginTest(unittest.TestCase):
             else:
                 raise
         out, err = p.communicate()
-        if 'Could not read any configuration files' in out:
+        if 'Could not read any configuration files' in out.decode('utf-8'):
             print('\n\n' + out)
             print('Most likely your argument does not point to')
             print('a valid MASTIFF source directory.')
