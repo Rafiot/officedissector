@@ -1,0 +1,6 @@
+test/fraunhoferlibrary
+*.pyc
+*.bak
+build
+dist
+*.egg-info

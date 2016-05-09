@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Rafiot/officedissector.svg?branch=circlean)](https://travis-ci.org/Rafiot/officedissector)
+[![Coverage Status](https://coveralls.io/repos/github/Rafiot/officedissector/badge.svg?branch=circlean)](https://coveralls.io/github/Rafiot/officedissector?branch=circlean)
+
 # OfficeDissector
 
 OfficeDissector is a parser library for static security analysis of Office Open XML (OOXML) Documents,
