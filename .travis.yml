@@ -22,6 +22,10 @@ install:
     - pip install coveralls
     - pip install codecov
     - python setup.py -q install
+    - pushd test/fraunhoferlibrary
+    - wget http://www.officedissector.com/corpus/fraunhoferlibrary.zip
+    - unzip -o fraunhoferlibrary.zip
+    - popd
 
 script:
     - if [ $(python -c 'import sys; print(sys.version_info.major)') == '2' ]; then mas.py -h ; fi
