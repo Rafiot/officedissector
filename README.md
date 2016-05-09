@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/Rafiot/officedissector.svg?branch=circlean)](https://travis-ci.org/Rafiot/officedissector)
 [![Coverage Status](https://coveralls.io/repos/github/Rafiot/officedissector/badge.svg?branch=circlean)](https://coveralls.io/github/Rafiot/officedissector?branch=circlean)
+[![codecov](https://codecov.io/gh/Rafiot/officedissector/branch/circlean/graph/badge.svg)](https://codecov.io/gh/Rafiot/officedissector)
 
 # OfficeDissector
 
