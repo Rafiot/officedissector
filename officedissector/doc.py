@@ -118,7 +118,7 @@ class Document(object):
 
         :return: Zip object
         """
-        return Zip(self.pseudofile)
+        return Zip(self.pseudofile, self.filename)
 
     def parts_by_content_type(self, contype):
         """
